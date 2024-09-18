@@ -21,7 +21,13 @@ connect(DB as string).then(() => {
   console.log('Connection erfolg');
 });
 
-const toursSchema = new Schema({
+interface ITour {
+  name?: string;
+  rating: number;
+  price: number;
+}
+
+const toursSchema = new Schema<ITour>({
   name: {
     type: String,
     required: true,
@@ -37,7 +43,7 @@ const toursSchema = new Schema({
   },
 });
 
-const Tour = model('Tour', toursSchema);
+const Tour = model<ITour>('Tour', toursSchema);
 
 app.listen(port, () => {
   console.log(`form ${port}`);
