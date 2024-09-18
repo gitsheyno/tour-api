@@ -1,11 +1,11 @@
 import * as dotenv from 'dotenv';
-import express from 'express';
 import { connect } from 'mongoose';
 
 dotenv.config();
 
+import app from './app';
+
 console.log(process.env.DATABASE_PASSWORD);
-const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
