@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 
-interface ITour {
+export interface ITour {
   name?: string;
   rating: number;
   price: number;
