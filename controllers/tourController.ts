@@ -22,7 +22,13 @@ export const checkID = (
 
 export const getAllTours = async (req: Request, res: Response) => {
   try {
-    const tours: ITour[] = (await Tour.find()) as ITour[];
+    const queryObj = { ...req.query };
+
+    const queryString = ['sort', 'limit', 'page', 'sort'];
+    queryString.forEach((element) => delete queryObj[element]);
+
+    const query = Tour.find(queryObj);
+    const tours: ITour[] = await query;
 
     res.status(200).json({
       status: 'success',
@@ -40,8 +46,6 @@ export const getAllTours = async (req: Request, res: Response) => {
 };
 
 export const getTour = async (req: Request, res: Response) => {
-  console.log('check');
-
   try {
     const tour: ITour = (await Tour.findById(req.params.id)) as ITour;
     res.status(200).json({
