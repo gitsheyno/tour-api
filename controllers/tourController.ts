@@ -24,18 +24,27 @@ export const getAllTours = async (req: Request, res: Response) => {
   try {
     const queryObj = { ...req.query };
 
-    const queryString = ['sort', 'limit', 'page', 'sort'];
+    const queryString = ['sort', 'limit', 'page', 'fields'];
     queryString.forEach((element) => delete queryObj[element]);
-
     let query = Tour.find(queryObj);
 
+    //sort
+
     if (req.query.sort) {
+      const sortBy = (req.query.sort as string).split(',').join(' ');
       query = query.sort(req.query.sort as string);
     } else {
       query = query.sort('-createdAt');
     }
 
-    //sort
+    //limit
+
+    if (req.query.fields) {
+      const limitBy = (req.query.fields as string).split(',').join(' ');
+      query = query.select(limitBy);
+    } else {
+      query = query.select('__v');
+    }
 
     const tours: ITour[] = await query;
 
